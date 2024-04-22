@@ -12,4 +12,7 @@ interface APIRouteServices {
     @GET("location")
     fun getLocation() : Call<LocationResponse>
 
+    @GET("character/{id}")
+    fun getCharacterById(@Path("id") id: Int) : Call<CharacterResponse>
+
 }

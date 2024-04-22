@@ -1,10 +1,13 @@
 package com.example.mostransteknikaltest.view
 
 import CharacterAdapter
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.mostransteknikaltest.R
 import com.example.mostransteknikaltest.databinding.ActivityCharacterDetailBinding
 import com.example.mostransteknikaltest.model.Character
@@ -13,29 +16,30 @@ import com.example.mostransteknikaltest.viewmodel.viewmodelfactory.ViewModelFact
 
 class CharacterDetailActivity : AppCompatActivity() {
     private lateinit var bind: ActivityCharacterDetailBinding
-    private lateinit var characterAdapter: CharacterAdapter
     private lateinit var characterViewModel: CharacterViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bind = ActivityCharacterDetailBinding.inflate(layoutInflater)
         setContentView(bind.root)
 
-        characterAdapter = CharacterAdapter()
-        characterViewModel = getCharacterViewModel(this)
-        characterViewModel.getCharacter()
-        characterViewModel.getCharacters().observe(this){
-            character -> characterAdapter.setCharacterData(character)
+        //change appbar text
+        supportActionBar?.title = "Character Detail"
+
+        //set detail character
+        var character: Character = intent.getParcelableExtra("character")!!
+        Log.d("IDCCCCC", "IDC EXTRA: ${character}")
+        Glide.with(this)
+            .load(character.imageResource)
+            .into(bind.imageCharacter);
+        bind.textName.text = character.name
+        bind.textLocation.text = character.location ?: "Null"
+        bind.textSpecies.text = "${character.species} | ${character.gender}"
+
+        bind.addLocation.setOnClickListener {
+            val intent = Intent(this, AddLocationActivity::class.java).putExtra("character", character)
+            startActivity(intent)
         }
 
-//        val characters = arrayListOf<Character>(
-//            Character("Character 1", "Human", "Male", ""),
-//            Character("Character 2", "Alien", "Female", ""),
-//            Character("Character 3", "Robot", "Unknown", "")
-//        )
-//
-//        characterAdapter.setCharacterData(characters)
-        bind.recyclerViewCharacterDetail.layoutManager = LinearLayoutManager(this)
-        bind.recyclerViewCharacterDetail.adapter = characterAdapter
     }
 
     private fun getCharacterViewModel(activity: AppCompatActivity): CharacterViewModel {

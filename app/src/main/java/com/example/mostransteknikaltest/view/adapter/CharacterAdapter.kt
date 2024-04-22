@@ -1,4 +1,4 @@
-import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mostransteknikaltest.R
 import com.example.mostransteknikaltest.model.Character
+import com.example.mostransteknikaltest.view.CharacterDetailActivity
 
 class CharacterAdapter() : RecyclerView.Adapter<CharacterAdapter.ListViewHolder>() {
     private val characters = ArrayList<Character>()
@@ -28,7 +29,7 @@ class CharacterAdapter() : RecyclerView.Adapter<CharacterAdapter.ListViewHolder>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val createView: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_character_detail, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_character_list, parent, false)
         return ListViewHolder(createView)
     }
 
@@ -42,6 +43,13 @@ class CharacterAdapter() : RecyclerView.Adapter<CharacterAdapter.ListViewHolder>
         holder. nameTextView.text = "Nama: ${character.name}"
         holder.speciesTextView.text = "Spesies: ${character.species}"
         holder.genderTextView.text = "Jenis Kelamin: ${character.gender}"
+
+        holder.itemView.setOnClickListener {
+            // Redirect to CharacterDetailActivity
+            Log.d("IDCCCCC", "IDC: ${character.id}")
+            val intent = Intent(holder.itemView.context, CharacterDetailActivity::class.java).putExtra("character", character)
+            holder.itemView.context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int = characters.size

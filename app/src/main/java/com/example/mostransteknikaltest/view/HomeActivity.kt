@@ -11,11 +11,14 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        //change appbar text
+        supportActionBar?.title = "Home"
+
         // Memberikan aksi klik pada card pertama (Character List)
         val card_character_list = findViewById<CardView>(R.id.card_character_list)
         card_character_list.setOnClickListener {
 //             Intent untuk berpindah ke halaman CharacterDetailActivity
-            val intent = Intent(this, CharacterDetailActivity::class.java)
+            val intent = Intent(this, CharacterListActivity::class.java)
             startActivity(intent)
         }
 
