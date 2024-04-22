@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_character_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="8dp"
+        android:layout_margin="16dp">
+
+        <!-- Isi Card Pertama (Character List) -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Character List"
+            android:padding="16dp"
+            android:textSize="18sp"
+            android:gravity="center"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_character_list_by_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card_character_list"
+        app:cardElevation="8dp"
+        android:layout_margin="16dp">
+
+        <!-- Isi Card Kedua (Character List By Location) -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Character List By Location"
+            android:padding="16dp"
+            android:textSize="18sp"
+            android:gravity="center"/>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
