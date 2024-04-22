@@ -2,47 +2,49 @@ package com.example.mostransteknikaltest.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.mostransteknikaltest.R
-import android.widget.Button
-import android.widget.EditText
-
-
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import com.example.mostransteknikaltest.databinding.ActivityAddLocationBinding
+import com.example.mostransteknikaltest.model.CharacterWithAssignedLocation
+import com.example.mostransteknikaltest.viewmodel.CharacterAssignedLocationViewModel
+import com.example.mostransteknikaltest.viewmodel.viewmodelfactory.ViewModelFactory
+import com.example.mostransteknikaltest.model.Character
 class AddLocationActivity : AppCompatActivity() {
-    private lateinit var locationEditText: EditText
-    private lateinit var addButton: Button
-
+    private lateinit var bind: ActivityAddLocationBinding
+    private lateinit var characterAssignedLocationViewModel: CharacterAssignedLocationViewModel
+    lateinit var character: Character
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_location)
+        bind = ActivityAddLocationBinding.inflate(layoutInflater)
+        setContentView(bind.root)
 
-        // Inisialisasi view
-        locationEditText = findViewById(R.id.edit_text_location)
-        addButton = findViewById(R.id.button_add)
-
-        // Set listener pada tombol "Tambahkan"
-        addButton.setOnClickListener {
-            // Panggil fungsi untuk menambahkan lokasi
+        characterAssignedLocationViewModel = getCharacterViewModel(this)
+        character = intent.getParcelableExtra("character")!!
+        Log.d("IDCCCCC", "IDC EXTRA: ${character}")
+        bind.buttonAdd.setOnClickListener {
             addLocation()
         }
     }
 
     private fun addLocation() {
-        // Mendapatkan teks dari input
-        val location = locationEditText.text.toString().trim()
-
-        // Pastikan input tidak kosong
+        val location = bind.editTextLocation.text.toString().trim()
         if (location.isNotEmpty()) {
-            // Lakukan aksi tambahkan lokasi di sini
-            // Misalnya, simpan lokasi ke database atau kirim ke server
-            // Di sini Anda dapat menambahkan logika sesuai kebutuhan aplikasi Anda
-            // Untuk contoh, saya hanya akan mencetak lokasi yang ditambahkan ke logcat
             println("Lokasi ditambahkan: $location")
-
-            // Setelah lokasi ditambahkan, Anda dapat menutup activity ini
+            Log.d("LOCATION", location)
+            characterAssignedLocationViewModel.insert(CharacterWithAssignedLocation(characterId = character.id!!, name = character.name!!, species = character.species!!, gender = character.gender!!, imageResource = character.imageResource!!, assignedLocation = location))
             finish()
         } else {
-            // Jika input kosong, berikan pesan kepada pengguna
-            // Misalnya, menggunakan Toast atau menampilkan pesan di TextView
+            Toast.makeText(this, "Location harus diisi, tidak boleh kosong!", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun getCharacterViewModel(activity: AppCompatActivity): CharacterAssignedLocationViewModel {
+        val characterViewModelFactory = ViewModelFactory.getInstance(activity.application)
+        return ViewModelProvider(
+            activity,
+            characterViewModelFactory
+        ).get(CharacterAssignedLocationViewModel::class.java)
     }
 }

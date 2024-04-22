@@ -1,12 +1,9 @@
 package com.example.mostransteknikaltest.view
-
-import CharacterAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.mostransteknikaltest.R
 import com.example.mostransteknikaltest.databinding.ActivityCharacterDetailBinding
@@ -16,7 +13,7 @@ import com.example.mostransteknikaltest.viewmodel.viewmodelfactory.ViewModelFact
 
 class CharacterDetailActivity : AppCompatActivity() {
     private lateinit var bind: ActivityCharacterDetailBinding
-    private lateinit var characterViewModel: CharacterViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bind = ActivityCharacterDetailBinding.inflate(layoutInflater)
